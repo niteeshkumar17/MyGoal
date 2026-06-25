@@ -3,12 +3,12 @@ import './Sidebar.css';
 
 function Sidebar() {
   const navItems = [
-    { to: '/', icon: '📊', label: 'Dashboard' },
-    { to: '/weekly', icon: '📅', label: 'Weekly Calendar' },
-    { to: '/daily', icon: '⏰', label: 'Daily Planner' },
-    { to: '/subjects', icon: '📚', label: 'Subjects' },
-    { to: '/milestones', icon: '🏆', label: 'Milestones' },
-    { to: '/syllabus', icon: '📖', label: 'Syllabus' },
+    { to: '/', label: 'Dashboard' },
+    { to: '/weekly', label: 'Weekly Calendar' },
+    { to: '/daily', label: 'Daily Planner' },
+    { to: '/subjects', label: 'Subjects' },
+    { to: '/milestones', label: 'Milestones' },
+    { to: '/syllabus', label: 'Syllabus' },
   ];
 
   return (
@@ -30,7 +30,6 @@ function Sidebar() {
               end={item.to === '/'}
               className={({ isActive }) => `sidebar-link ${isActive ? 'sidebar-link--active' : ''}`}
             >
-              <span className="sidebar-link-icon">{item.icon}</span>
               <span className="sidebar-link-label">{item.label}</span>
             </NavLink>
           ))}
@@ -49,7 +48,6 @@ function Sidebar() {
             end={item.to === '/'}
             className={({ isActive }) => `mobile-tab ${isActive ? 'mobile-tab--active' : ''}`}
           >
-            <span className="mobile-tab-icon">{item.icon}</span>
             <span className="mobile-tab-label">{item.label}</span>
           </NavLink>
         ))}
