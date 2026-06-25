@@ -474,7 +474,7 @@ function Syllabus() {
         </div>
         <div className="syllabus-count">
           <span className="syllabus-count-num">{pdfFiles.length}</span>
-          <span className="syllabus-count-label">PDFs available</span>
+          <span className="syllabus-count-label">books PDF</span>
         </div>
       </div>
 
