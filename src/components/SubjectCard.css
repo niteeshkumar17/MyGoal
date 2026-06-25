@@ -176,3 +176,18 @@
 .subject-card-notes-input::placeholder {
   color: var(--text-tertiary);
 }
+
+.subject-card-badge-complete {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #10B981;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin-left: 10px;
+}
+
+.subject-card--complete {
+  border-color: #10B981;
+  background: rgba(16, 185, 129, 0.02);
+}

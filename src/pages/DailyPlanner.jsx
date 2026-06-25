@@ -6,13 +6,18 @@ import './DailyPlanner.css';
 
 function DailyPlanner() {
   const today = new Date().toISOString().split('T')[0];
+  const isSunday = new Date().getDay() === 0;
+
   const [allDailyData, setAllDailyData] = useLocalStorage('upsc_daily_slots', {});
+  const [mocksDone, setMocksDone] = useLocalStorage('upsc_mocks_done', 0);
+  const [pyqsDone, setPyqsDone] = useLocalStorage('upsc_pyq_done', 0);
 
   const todayData = allDailyData[today] || {};
   const studySlots = dailySlots.filter(s => s.isStudySlot);
   const completedCount = studySlots.filter(s => todayData[s.id]).length;
 
   const handleToggle = (slotId) => {
+    if (isSunday) return;
     setAllDailyData(prev => ({
       ...prev,
       [today]: {
@@ -38,6 +43,35 @@ function DailyPlanner() {
         </div>
       </div>
 
+      <div className="daily-manual-stats">
+        <div className="daily-manual-stat">
+          <label>Mock Tests Done</label>
+          <input
+            type="number"
+            min="0"
+            max="15"
+            value={mocksDone}
+            onChange={(e) => setMocksDone(Number(e.target.value))}
+          />
+        </div>
+        <div className="daily-manual-stat">
+          <label>PYQ Papers Solved</label>
+          <input
+            type="number"
+            min="0"
+            max="10"
+            value={pyqsDone}
+            onChange={(e) => setPyqsDone(Number(e.target.value))}
+          />
+        </div>
+      </div>
+
+      {isSunday && (
+        <div className="daily-sunday-banner">
+          <span>Sunday — Revision + Rest Day. No new reading today.</span>
+        </div>
+      )}
+
       <div className="daily-progress-card">
         <div className="daily-progress-header">
           <span className="daily-progress-label">Today's Completion</span>
@@ -50,7 +84,7 @@ function DailyPlanner() {
           height={10}
           showLabel
         />
-        {completedCount === studySlots.length && (
+        {completedCount === studySlots.length && !isSunday && (
           <div className="daily-progress-complete">🎉 All study slots completed! Great job today!</div>
         )}
       </div>
@@ -62,6 +96,7 @@ function DailyPlanner() {
             slot={slot}
             checked={!!todayData[slot.id]}
             onToggle={handleToggle}
+            disabled={isSunday}
           />
         ))}
       </div>

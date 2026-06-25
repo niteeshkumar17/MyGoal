@@ -8,13 +8,11 @@ function SubjectTracker() {
   const [bookStatus, setBookStatus] = useLocalStorage('upsc_subject_books', {});
   const [subjectNotes, setSubjectNotes] = useLocalStorage('upsc_subject_notes', {});
 
-  const handleBookToggle = (subjectId, bookId) => {
+  const handleChapterToggle = (subjectId, chapterIndex) => {
+    const key = `${subjectId}_${chapterIndex}`;
     setBookStatus(prev => ({
       ...prev,
-      [subjectId]: {
-        ...prev[subjectId],
-        [bookId]: !prev[subjectId]?.[bookId],
-      },
+      [key]: !prev[key],
     }));
   };
 
@@ -27,13 +25,15 @@ function SubjectTracker() {
 
   // Overall stats
   const stats = useMemo(() => {
-    let totalBooks = 0;
-    let checkedBooks = 0;
+    let totalChapters = 0;
+    let checkedChapters = 0;
     subjects.forEach(sub => {
-      totalBooks += sub.books.length;
-      checkedBooks += sub.books.filter(b => bookStatus[sub.id]?.[b.id]).length;
+      totalChapters += sub.chapters.length;
+      sub.chapters.forEach((_, i) => {
+        if (bookStatus[`${sub.id}_${i}`]) checkedChapters++;
+      });
     });
-    return { totalBooks, checkedBooks };
+    return { totalChapters, checkedChapters };
   }, [bookStatus]);
 
   return (
@@ -44,8 +44,8 @@ function SubjectTracker() {
           <span className="page-subtitle">7 subjects · Track your reading progress</span>
         </div>
         <div className="subject-overall">
-          <span className="subject-overall-count">{stats.checkedBooks}/{stats.totalBooks}</span>
-          <span className="subject-overall-label">books completed</span>
+          <span className="subject-overall-count">{stats.checkedChapters}/{stats.totalChapters}</span>
+          <span className="subject-overall-label">chapters completed</span>
         </div>
       </div>
 
@@ -54,8 +54,8 @@ function SubjectTracker() {
           <SubjectCard
             key={subject.id}
             subject={subject}
-            bookStatus={bookStatus[subject.id] || {}}
-            onBookToggle={handleBookToggle}
+            bookStatus={bookStatus}
+            onChapterToggle={handleChapterToggle}
             notes={subjectNotes[subject.id]}
             onNotesChange={handleNotesChange}
           />

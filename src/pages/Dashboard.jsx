@@ -11,40 +11,16 @@ function Dashboard() {
   const [weekStatus] = useLocalStorage('upsc_week_status', {});
   const [dailySlotsData] = useLocalStorage('upsc_daily_slots', {});
   const [bookStatus] = useLocalStorage('upsc_subject_books', {});
-  const [milestoneStatus] = useLocalStorage('upsc_milestones', {});
+  const [mocksDone] = useLocalStorage('upsc_mocks_done', 0);
+  const [pyqsDone] = useLocalStorage('upsc_pyq_done', 0);
 
   // Calculate stats
   const weeksCompleted = Object.values(weekStatus).filter(s => s === 'done').length;
 
-  // Count subjects completed (all books checked)
-  const subjectsCompleted = useMemo(() => {
-    const subjectBookCounts = {
-      polity: 5, history: 5, geography: 5, economy: 5, environment: 4, science: 4, csat: 3
-    };
-    let count = 0;
-    for (const [subId, total] of Object.entries(subjectBookCounts)) {
-      const checked = bookStatus[subId] ? Object.values(bookStatus[subId]).filter(Boolean).length : 0;
-      if (checked >= total) count++;
-    }
-    return count;
+  // Count chapters completed
+  const chaptersCompleted = useMemo(() => {
+    return Object.values(bookStatus).filter(Boolean).length;
   }, [bookStatus]);
-
-  // Count mock tests (weeks with "mock" in task that are done)
-  const mocksDone = useMemo(() => {
-    return weeks.filter(w =>
-      w.task.toLowerCase().includes('mock test') &&
-      w.task.toLowerCase().includes('full mock') &&
-      weekStatus[w.id] === 'done'
-    ).length;
-  }, [weekStatus]);
-
-  // Count PYQ papers (weeks with PYQ full paper done)
-  const pyqsDone = useMemo(() => {
-    return weeks.filter(w =>
-      (w.task.toLowerCase().includes('pyq full paper') || w.task.toLowerCase().includes('pyq 20')) &&
-      weekStatus[w.id] === 'done'
-    ).length;
-  }, [weekStatus]);
 
   // Find current week
   const currentWeek = useMemo(() => {
@@ -77,8 +53,8 @@ function Dashboard() {
       <CountdownTimer />
 
       <div className="dashboard-stats">
-        <StatCard icon="📅" value={weeksCompleted} total={46} label="Weeks Completed" color="#1D9E75" />
-        <StatCard icon="📚" value={subjectsCompleted} total={7} label="Subjects Completed" color="#378ADD" />
+        <StatCard icon="📅" value={weeksCompleted} total={48} label="Weeks Completed" color="#1D9E75" />
+        <StatCard icon="📚" value={chaptersCompleted} total={199} label="Chapters Completed" color="#378ADD" />
         <StatCard icon="📝" value={mocksDone} total={15} label="Mock Tests Done" color="#EF9F27" />
         <StatCard icon="📋" value={pyqsDone} total={10} label="PYQ Papers Solved" color="#D85A30" />
       </div>
@@ -88,10 +64,10 @@ function Dashboard() {
         <div className="dashboard-card dashboard-current-week">
           <h2 className="dashboard-card-title">📅 This Week's Focus</h2>
           {currentWeek ? (
-            <div className="current-week-content" style={{ '--phase-color': PHASES[currentWeek.phase].color }}>
+            <div className="current-week-content" style={{ '--phase-color': PHASES[currentWeek.phase]?.color || '#8B5CF6' }}>
               <div className="current-week-badge">
-                <span className="current-week-num">Week {currentWeek.weekNum}</span>
-                <span className="current-week-phase">{PHASES[currentWeek.phase].name}</span>
+                <span className="current-week-num">{currentWeek.isExam ? 'EXAM' : `Week ${currentWeek.weekNum}`}</span>
+                <span className="current-week-phase">{PHASES[currentWeek.phase]?.name || 'Final'}</span>
               </div>
               <p className="current-week-task">{currentWeek.task}</p>
               <span className="current-week-date">

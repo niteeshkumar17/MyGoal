@@ -125,8 +125,21 @@
 }
 
 .daily-slot-check input:checked + .daily-slot-checkmark {
-  background: var(--phase-foundation);
-  border-color: var(--phase-foundation);
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.daily-slot--disabled {
+  opacity: 0.6;
+}
+
+.daily-slot--disabled .daily-slot-check {
+  cursor: not-allowed;
+}
+
+.daily-slot--disabled input + .daily-slot-checkmark {
+  background: var(--bg-tertiary);
+  border-color: var(--border);
 }
 
 .daily-slot-check:hover .daily-slot-checkmark {

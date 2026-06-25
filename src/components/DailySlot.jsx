@@ -1,8 +1,8 @@
 import './DailySlot.css';
 
-function DailySlot({ slot, checked, onToggle }) {
+function DailySlot({ slot, checked, onToggle, disabled }) {
   return (
-    <div className={`daily-slot ${slot.isStudySlot ? 'daily-slot--study' : 'daily-slot--break'} ${checked ? 'daily-slot--done' : ''}`}>
+    <div className={`daily-slot ${slot.isStudySlot ? 'daily-slot--study' : 'daily-slot--break'} ${checked ? 'daily-slot--done' : ''} ${disabled ? 'daily-slot--disabled' : ''}`}>
       <div className="daily-slot-timeline">
         <div className="daily-slot-dot" style={{ backgroundColor: slot.tagColor || 'var(--text-tertiary)' }} />
         <div className="daily-slot-line" />
@@ -24,6 +24,7 @@ function DailySlot({ slot, checked, onToggle }) {
             type="checkbox"
             checked={checked}
             onChange={() => onToggle(slot.id)}
+            disabled={disabled}
           />
           <span className="daily-slot-checkmark">
             {checked ? '✓' : ''}
