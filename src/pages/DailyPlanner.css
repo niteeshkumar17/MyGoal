@@ -1,0 +1,71 @@
+.daily-planner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.daily-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.daily-progress-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.daily-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.daily-progress-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.daily-progress-count {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.daily-progress-complete {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--phase-foundation);
+  text-align: center;
+  padding: 8px;
+  background: #D1FAE5;
+  border-radius: 8px;
+  animation: celebratePulse 1s ease-in-out;
+}
+
+@keyframes celebratePulse {
+  0% { transform: scale(0.95); opacity: 0; }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.daily-timeline {
+  display: flex;
+  flex-direction: column;
+  padding-left: 8px;
+}
+
+@media (max-width: 480px) {
+  .daily-progress-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

@@ -1,0 +1,43 @@
+.milestones-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.milestones-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.milestones-count {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.milestones-count-num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--phase-foundation);
+}
+
+.milestones-count-label {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.milestones-timeline {
+  display: flex;
+  flex-direction: column;
+  padding-left: 8px;
+}
+
+@media (max-width: 767px) {
+  .milestones-header {
+    flex-direction: column;
+  }
+}

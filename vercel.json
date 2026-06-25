@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/pdfs/(.*\\.pdf)",
+      "headers": [
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
+        }
+      ]
+    }
+  ]
+}
